@@ -15,12 +15,14 @@ app.filenames=['jsuc5P',\
 @app.route('/index',methods=['GET','POST'])
 def index():
     if request.method == 'GET':
+        print 'running GET index'
         app.num=0
         app.order=range(0,5)
         shuffle(app.order)
         print app.order
         return render_template('userinfo.html')
     else:
+        print 'running POST index'
         app.progvars['name'] = request.form['name']
         app.progvars['age'] = request.form['age']
         return redirect(url_for('main'))
@@ -34,9 +36,9 @@ def main():
 @app.route('/item',methods=['GET'])
 def item():
     print 'this is a get item'
-    print 'file num is: ', app.order[num]
-    print 'file is: ', app.filenames[app.order[num]]
-    return render_template('layout.html',num=app.num,filename=app.filenames[app.order[num]]+'.mp3')
+    print 'file num is: ', app.order[app.num-1]
+    print 'file is: ', app.filenames[app.order[app.num-1]]
+    return render_template('layout.html',num=app.num,filename=app.filenames[app.order[app.num-1]]+'.mp3')
 
 @app.route('/item',methods=['POST'])
 def item2():

@@ -1,3 +1,4 @@
+
 from flask import Flask,render_template,Markup,request,redirect,url_for
 from random import shuffle
 
@@ -15,6 +16,7 @@ app.num=0
 @app.route('/index',methods=['GET','POST'])
 def index():
     if request.method == 'GET':
+        app.num=0
         app.order=range(0,5)
         shuffle(app.order)
         print app.order
@@ -26,7 +28,6 @@ def index():
 
 @app.route('/main')
 def main():
-    print app.order
     if app.num == len(app.filenames): return render_template('end.html')
     app.num += 1
     return redirect(url_for('item'))
@@ -34,8 +35,9 @@ def main():
 @app.route('/item',methods=['GET'])
 def item():
     print 'this is a get item'
-    print 'file is: ', app.filenames[app.num-1]
-    return render_template('layout.html',num=app.num,filename=app.filenames[app.num-1]+'.mp3')
+    print 'file num is: ', app.order[num]
+    print 'file is: ', app.filenames[app.order[num]]
+    return render_template('layout.html',num=app.num,filename=app.filenames[app.order[num]]+'.mp3')
 
 @app.route('/item',methods=['POST'])
 def item2():
