@@ -10,6 +10,8 @@ app.filenames=['jsuc5P',\
               'kQYPf7',\
               'lSFaDi',\
               'mTdR8a']
+app.num_clips=len(app.filenames)
+#app.num_clips=2
 
 @app.route('/')
 @app.route('/index',methods=['GET','POST'])
@@ -18,7 +20,7 @@ def index():
         app.num=0
         app.order=range(0,5)
         shuffle(app.order)
-        return render_template('userinfo.html')
+        return render_template('userinfo.html',num_clips=app.num_clips)
     else:
         app.progvars['name'] = request.form['name']
         app.progvars['age'] = request.form['age']
@@ -26,7 +28,7 @@ def index():
 
 @app.route('/main')
 def main():
-    if app.num == len(app.filenames): return render_template('end.html')
+    if app.num == app.num_clips: return render_template('end.html')
     app.num += 1
     return redirect(url_for('item'))
     
@@ -38,6 +40,8 @@ def item():
 @app.route('/item',methods=['POST'])
 def item2():
     #print 'this is a post item'
+    #initialize in case no answer
+
     recog = request.form['recog']
     comp = request.form['comp']
     comp_conf = request.form['comp_conf']
