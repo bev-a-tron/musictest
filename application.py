@@ -46,7 +46,7 @@ def item2():
     name = app.progvars['name']
     age = app.progvars['age']
     
-    f=open('data_%s_%s.txt'%(name,age),'a')
+    f=open('data/%s_%s.txt'%(name,age),'a')
     f.write('%s \t %s \t % *s \t %s \t % *s \t %s \n'%(app.order[app.num-1],recog,15,comp,comp_conf,15,piece,piece_conf))
     f.close()
     return redirect(url_for('main'))
