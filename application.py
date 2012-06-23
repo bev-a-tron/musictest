@@ -1,28 +1,25 @@
-
 from flask import Flask,render_template,Markup,request,redirect,url_for
 from random import shuffle
+import sqlite3
 
 app = Flask(__name__)
 
 app.progvars={}
 app.filenames=['jsuc5P',\
-               'kgLUha2',\
-               'kQYPf7',\
-               'lSFaDi',\
-               'mTdR8a']
+              'kgLUha2',\
+              'kQYPf7',\
+              'lSFaDi',\
+              'mTdR8a']
 
 @app.route('/')
 @app.route('/index',methods=['GET','POST'])
 def index():
     if request.method == 'GET':
-        print 'running GET index'
         app.num=0
         app.order=range(0,5)
         shuffle(app.order)
-        print app.order
         return render_template('userinfo.html')
     else:
-        print 'running POST index'
         app.progvars['name'] = request.form['name']
         app.progvars['age'] = request.form['age']
         return redirect(url_for('main'))
@@ -35,14 +32,12 @@ def main():
     
 @app.route('/item',methods=['GET'])
 def item():
-    print 'this is a get item'
-    print 'file num is: ', app.order[app.num-1]
-    print 'file is: ', app.filenames[app.order[app.num-1]]
+    #print 'this is a get item'
     return render_template('layout.html',num=app.num,filename=app.filenames[app.order[app.num-1]]+'.mp3')
 
 @app.route('/item',methods=['POST'])
 def item2():
-    print 'this is a post item'
+    #print 'this is a post item'
     recog = request.form['recog']
     comp = request.form['comp']
     comp_conf = request.form['comp_conf']
@@ -52,13 +47,8 @@ def item2():
     age = app.progvars['age']
     
     f=open('data_%s_%s.txt'%(name,age),'a')
-    f.write('recog: %s \n'%(recog))
-    f.write('composer: %s \n'%(comp))
-    f.write('confidence: %s \n'%(comp_conf))
-    f.write('piece: %s \n'%(piece))
-    f.write('confidence: %s \n'%(piece_conf))
+    f.write('%s \t %s \t % *s \t %s \t % *s \t %s \n'%(app.order[app.num-1],recog,15,comp,comp_conf,15,piece,piece_conf))
     f.close()
-
     return redirect(url_for('main'))
 
 if __name__ == "__main__":

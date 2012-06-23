@@ -7,11 +7,11 @@
   <div class=metanav>
 
     <audio controls="controls">
-      <source src="/static/audioclips/{{filename}}" type="audio/mp3" />
+      <source src="/static/audioclips/{{filename}}" type="audio/mp3" autoplay="autoplay"/>
     </audio>
 
 <h4>
-<form id='dataform' method='post' action='answers' >
+<form id='dataform' method='post' action='item' >
    <p>
    Do you recognize it?: <br />
    <input type='radio' name='recog' value="yes"/> Yes <br />
