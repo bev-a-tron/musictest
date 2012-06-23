@@ -11,6 +11,29 @@ app.filenames=['jsuc5P',\
               'lSFaDi',\
               'mTdR8a']
 
+#configuration
+app.config['DATABASE'] = '/responses.db'
+
+def connect_db():
+    print 'connect db'
+    return sqlite3.connect(app.config['DATABASE'])
+
+def init_db():
+    cur = g.db.cursor()
+    cur.execute('''CREATE TABLE answers
+                (name text, age int, actual int, recognize text,\
+                 composer text, c_confidence int, piece text,\
+                 p_confidence int)''')
+    cur.commit()
+
+@app.before_request
+def before_request():
+    g.db = connect_db()
+
+@app.teardown_request
+def teardown_request(exception):
+    g.db.close()
+
 @app.route('/')
 @app.route('/index',methods=['GET','POST'])
 def index():
@@ -38,17 +61,18 @@ def item():
 @app.route('/item',methods=['POST'])
 def item2():
     #print 'this is a post item'
-    recog = request.form['recog']
-    comp = request.form['comp']
-    comp_conf = request.form['comp_conf']
-    piece = request.form['piece']
-    piece_conf = request.form['piece_conf']
-    name = app.progvars['name']
-    age = app.progvars['age']
     
-    f=open('data/%s_%s.txt'%(name,age),'a')
-    f.write('%s \t %s \t % *s \t %s \t % *s \t %s \n'%(app.order[app.num-1],recog,15,comp,comp_conf,15,piece,piece_conf))
-    f.close()
+    cur.execute('insert into entries (name,age,actual,recognize,composer,c_confidence,piece,p_confidence) values (?,?,?,?,?,?,?,?)',
+                 [app.progvars['name'],\
+                  int(app.progvars['age']),\
+                  app.order[app.num-1],\
+                  request.form['recog'],\
+                  request.form['comp'],\
+                  int(request.form['comp_conf']),\
+                  request.form['piece'],\
+                  int(request.form['piece_conf'])
+                  ])
+
     return redirect(url_for('main'))
 
 if __name__ == "__main__":
