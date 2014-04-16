@@ -1,0 +1,5 @@
+language: python
+deploy:
+ provider: heroku
+ api_key: e2a1fe93-2984-4cd9-9073-471bc0087d46
+ app: musictest-dev
