@@ -6,5 +6,5 @@ install:
 script: nosetests
 deploy:
   provider: heroku
-  api_key: e2a1fe93-2984-4cd9-9073-471bc0087d46
+  api_key: 86ff825b-9199-40d4-9284-7d725db50e63
   app: musictest-dev
