@@ -31,7 +31,7 @@ def main():
     if app.num == app.num_clips: return render_template('end.html')
     app.num += 1
     return redirect(url_for('item'))
-    
+
 @app.route('/item',methods=['GET'])
 def item():
     #print 'this is a get item'
@@ -49,7 +49,7 @@ def item2():
     piece_conf = request.form['piece_conf']
     name = app.progvars['name']
     age = app.progvars['age']
-    
+
     f=open('data/%s_%s.txt'%(name,age),'a')
     f.write('%s \t %s \t % *s \t %s \t % *s \t %s \n'%(app.order[app.num-1],recog,15,comp,comp_conf,15,piece,piece_conf))
     f.close()
