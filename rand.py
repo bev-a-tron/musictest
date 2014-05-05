@@ -40,9 +40,9 @@ sql += ");"
 sql += "ALTER TABLE responses"
 sql += "  OWNER TO postgres;"
 
-cur.execute(sql)
+# cur.execute(sql)
 
-sql = "select * from responses"
+sql = "select * from responseses"
 cur.execute(sql)
 
 rows = cur.fetchall()
