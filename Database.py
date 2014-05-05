@@ -13,11 +13,11 @@ class Database:
     os.system("psql %s < ./init_db.sql" % (self.url.path[1:]))
 
   def getConnection(self):
-    conn = psycopg2.connect(
+    self.conn = psycopg2.connect(
         database = self.url.path[1:],
         user = self.url.username,
         password = self.url.password,
         host = self.url.hostname,
         port = self.url.port
     )
-    return conn
+    return self.conn
