@@ -10,6 +10,8 @@ class DatabaseConnectionTest(unittest.TestCase):
     db = Database()
     conn = db.getConnection()
 
+    db.setupTables()
+
     cur = conn.cursor()
 
     sql = "Select * From responses"
