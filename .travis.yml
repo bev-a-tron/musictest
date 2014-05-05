@@ -10,3 +10,5 @@ deploy:
   provider: heroku
   api_key: 86ff825b-9199-40d4-9284-7d725db50e63
   app: musictest-dev
+notifications:
+  email: false
