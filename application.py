@@ -49,18 +49,22 @@ def item2():
     #print 'this is a post item'
     #initialize in case no answer
 
-    response = Response()
+    #try/catch for debugging
+    try:
+      response = Response()
 
-    response.order = app.order[app.num-1]
-    response.recog = request.form['recog']
-    response.comp = request.form['comp']
-    response.comp_conf = request.form['comp_conf']
-    response.piece = request.form['piece']
-    response.piece_conf = request.form['piece_conf']
-    response.name = app.progvars['name']
-    response.age = app.progvars['age']
+      response.order = app.order[app.num-1]
+      response.recog = request.form['recog']
+      response.comp = request.form['comp']
+      response.comp_conf = request.form['comp_conf']
+      response.piece = request.form['piece']
+      response.piece_conf = request.form['piece_conf']
+      response.name = app.progvars['name']
+      response.age = app.progvars['age']
 
-    db.saveResponse(response)
+      db.saveResponse(response)
+    except:
+      print environ['wsgi.errors'], "*************MUSICTEST-DEV DEBUG*************"
 
     return redirect(url_for('main'))
 
