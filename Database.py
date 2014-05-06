@@ -47,8 +47,18 @@ class Database:
   def saveResponse(self, response):
     self.__connect()
 
-    sql = "INSERT INTO responses (recog, comp, comp_conf, piece, piece_conf, name, age) " + \
-      "VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s')" % (response.recog, response.comp, response.comp_conf, response.piece, response.piece_conf, response.name, response.age)
+    sql = """INSERT INTO responses
+          ("order", recog, comp, comp_conf, piece, piece_conf, name, age)
+          VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')""" % (
+            response.order,
+            response.recog,
+            response.comp,
+            response.comp_conf,
+            response.piece,
+            response.piece_conf,
+            response.name,
+            response.age
+          )
 
     cursor = self.conn.cursor()
     cursor.execute(sql)

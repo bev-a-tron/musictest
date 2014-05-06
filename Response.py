@@ -2,6 +2,7 @@
 
 class Response():
   def __init__(self):
+    self.order = ""
     self.recog = ""
     self.comp = ""
     self.comp_conf = ""
