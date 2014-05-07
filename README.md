@@ -18,6 +18,7 @@ using the user's name and age for the file name.
 2. Install [virtualenv](https://virtualenv.pypa.io/en/latest/virtualenv.html)
 3. Start the virtual environment
 ```
+virtualenv venv  
 $ source venv/bin/activate
 ```
 4. Install dependencies
