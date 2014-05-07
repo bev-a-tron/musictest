@@ -3,6 +3,7 @@ from random import shuffle
 import sqlite3
 
 import os
+import urlparse
 
 from Database import Database
 from Response import Response
@@ -49,7 +50,9 @@ def item():
 
 @app.route('/env', methods=['GET'])
 def showEnv():
-  return str(os.environ)
+  dburl = os.environ.get("DATABASE_URL", "postgresql://postgres:@localhost/musictest")
+  url = urlparse.urlparse(dburl)
+  return url.path[1:]
 
 @app.route('/item',methods=['POST'])
 def item2():

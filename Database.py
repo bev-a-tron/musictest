@@ -11,7 +11,6 @@ class Database:
     self.url = urlparse.urlparse(self.dburl)
 
   def setup(self):
-    # os.system("psql %s < ./init_db.sql" % (self.url.path[1:]))
     self.__connect()
 
     sql = """CREATE TABLE IF NOT EXISTS responses
@@ -37,7 +36,7 @@ class Database:
 
   def dropTables(self):
     self.__connect()
-    
+
     sql = "DROP TABLE IF EXISTS responses"
     cursor = self.conn.cursor()
     cursor.execute(sql)
@@ -54,7 +53,6 @@ class Database:
         host = self.url.hostname,
         port = self.url.port
     )
-    print self.url.path[1:]
 
   def __close(self):
     self.conn.close()
