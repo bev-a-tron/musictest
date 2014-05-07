@@ -1,7 +1,5 @@
 import unittest
 import os
-import psycopg2
-import urlparse
 
 from Database import Database
 from Response import Response
