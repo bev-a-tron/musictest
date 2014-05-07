@@ -11,10 +11,40 @@ class Database:
     self.url = urlparse.urlparse(self.dburl)
 
   def setup(self):
-    os.system("psql %s < ./init_db.sql" % (self.url.path[1:]))
+    # os.system("psql %s < ./init_db.sql" % (self.url.path[1:]))
+    self.__connect()
+
+    sql = """CREATE TABLE IF NOT EXISTS responses
+    (
+      id serial NOT NULL,
+      name character varying(255),
+      age character varying(255),
+      "order" character varying(255),
+      comp character varying(255),
+      comp_conf character varying(255),
+      recog character varying(255),
+      piece character varying(255),
+      piece_conf character varying(255),
+      CONSTRAINT responses_pkey PRIMARY KEY (id)
+    )"""
+
+    cursor = self.conn.cursor()
+    cursor.execute(sql)
+    self.conn.commit()
+    cursor.close()
+
+    self.__close()
 
   def dropTables(self):
-    os.system("psql %s < ./drop_tables.sql" % (self.url.path[1:]))
+    self.__connect()
+    
+    sql = "DROP TABLE IF EXISTS responses"
+    cursor = self.conn.cursor()
+    cursor.execute(sql)
+    self.conn.commit()
+    cursor.close()
+
+    self.__close()
 
   def __connect(self):
     self.conn = psycopg2.connect(
