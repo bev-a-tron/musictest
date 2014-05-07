@@ -2,6 +2,9 @@ from flask import Flask,render_template,Markup,request,redirect,url_for
 from random import shuffle
 import sqlite3
 
+from Database import Database
+from Response import Response
+
 app = Flask(__name__)
 
 app.progvars={}
@@ -12,6 +15,10 @@ app.filenames=['jsuc5P',\
               'mTdR8a']
 #app.num_clips=len(app.filenames)
 app.num_clips=2
+
+#Setup Database and Tables
+db = Database()
+db.setup()
 
 @app.route('/')
 @app.route('/index',methods=['GET','POST'])
@@ -31,7 +38,7 @@ def main():
     if app.num == app.num_clips: return render_template('end.html')
     app.num += 1
     return redirect(url_for('item'))
-    
+
 @app.route('/item',methods=['GET'])
 def item():
     #print 'this is a get item'
@@ -42,17 +49,19 @@ def item2():
     #print 'this is a post item'
     #initialize in case no answer
 
-    recog = request.form['recog']
-    comp = request.form['comp']
-    comp_conf = request.form['comp_conf']
-    piece = request.form['piece']
-    piece_conf = request.form['piece_conf']
-    name = app.progvars['name']
-    age = app.progvars['age']
-    
-    f=open('data/%s_%s.txt'%(name,age),'a')
-    f.write('%s \t %s \t % *s \t %s \t % *s \t %s \n'%(app.order[app.num-1],recog,15,comp,comp_conf,15,piece,piece_conf))
-    f.close()
+    response = Response()
+
+    response.order = app.order[app.num-1]
+    response.recog = request.form['recog']
+    response.comp = request.form['comp']
+    response.comp_conf = request.form['comp_conf']
+    response.piece = request.form['piece']
+    response.piece_conf = request.form['piece_conf']
+    response.name = app.progvars['name']
+    response.age = app.progvars['age']
+
+    db.saveResponse(response)
+
     return redirect(url_for('main'))
 
 if __name__ == "__main__":
