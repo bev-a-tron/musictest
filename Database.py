@@ -24,6 +24,7 @@ class Database:
         host = self.url.hostname,
         port = self.url.port
     )
+    print self.url.path[1:]
 
   def __close(self):
     self.conn.close()

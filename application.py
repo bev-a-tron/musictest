@@ -2,6 +2,8 @@ from flask import Flask,render_template,Markup,request,redirect,url_for
 from random import shuffle
 import sqlite3
 
+import os
+
 from Database import Database
 from Response import Response
 
@@ -44,6 +46,10 @@ def main():
 def item():
     #print 'this is a get item'
     return render_template('layout.html',num=app.num,filename=app.filenames[app.order[app.num-1]]+'.mp3')
+
+@app.route('/env', methods=['GET'])
+def showEnv():
+  return str(os.environ)
 
 @app.route('/item',methods=['POST'])
 def item2():
